@@ -38,6 +38,29 @@ Theta2_grad = zeros(size(Theta2));
 %         variable J. After implementing Part 1, you can verify that your
 %         cost function computation is correct by verifying the cost
 %         computed in ex4.m
+
+% Basic vectorized forward propagation
+a1 = [ones(m, 1), X];               % add bias unit to the inputs
+z2 = a1 * Theta1'; ...'
+a2 = sigmoid(z2);
+a2 = [ones(m, 1), a2];
+z3 = a2 * Theta2'; ...'
+a3 = sigmoid(z3);
+h = a3;
+
+%         Note: The vector y passed into the function is a vector of labels
+%               containing values from 1..K. You need to map this vector into a 
+%               binary vector of 1's and 0's to be used with the neural network
+%               cost function.
+
+% Recast y as one-of-many-labels classification matrix
+yK = repmat(1:num_labels, m, 1);    % m rows of (1 2 ... num_labels)
+yK = bsxfun(@eq, yK, y);            % m rows of e.g. (1 0 0 ...)
+
+% Unregularized logistic regression cost function
+% use sum(sum()) to sum over all matrix elements
+J = -1/m * sum(sum(yK .* log(h) + (1 - yK) .* log(1 - h)));
+
 %
 % Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of
@@ -45,14 +68,23 @@ Theta2_grad = zeros(size(Theta2));
 %         Theta2_grad, respectively. After implementing Part 2, you can check
 %         that your implementation is correct by running checkNNGradients
 %
-%         Note: The vector y passed into the function is a vector of labels
-%               containing values from 1..K. You need to map this vector into a 
-%               binary vector of 1's and 0's to be used with the neural network
-%               cost function.
-%
 %         Hint: We recommend implementing backpropagation using a for-loop
 %               over the training examples if you are implementing it for the 
 %               first time.
+
+% Cost error matrix backpropagation
+d3 = a3 - yK;
+d2 = d3 * Theta2 .* a2 .* (1-a2);
+d2 = d2(:, 2:end);                  % discard d2 bias unit column
+
+% Accumulated layer cost matrix for Theta1
+Delta1 = 1/m * (d2' * a1); ...'
+Theta1_grad = Delta1;
+
+% Accumulated layer cost matrix for Theta2
+Delta2 = 1/m * (d3' * a2); ...'
+Theta2_grad = Delta2;
+
 %
 % Part 3: Implement regularization with the cost function and gradients.
 %
@@ -61,31 +93,21 @@ Theta2_grad = zeros(size(Theta2));
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
 %
+% 
+% calculate the elementwise squares for Theta1 & Theta2, ignoring the bias units
+Theta1_reg = Theta1(:, 2:end).^2; 
+Theta2_reg = Theta2(:, 2:end).^2;
 
+% regularized cost function by adding sum of squares to the unregularized cost function
+J = J + lambda/2/m * (sum(sum(Theta1_reg)) + sum(sum(Theta2_reg)));
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-% -------------------------------------------------------------
+% regularized gradient by adding lambda terms, ignoring the bias units
+Theta1_grad(:, 2:end) = Theta1_grad(:, 2:end) + lambda/m * Theta1(:, 2:end);
+Theta2_grad(:, 2:end) = Theta2_grad(:, 2:end) + lambda/m * Theta2(:, 2:end);
 
 % =========================================================================
 
 % Unroll gradients
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
-
 
 end

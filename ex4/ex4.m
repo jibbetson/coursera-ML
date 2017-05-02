@@ -120,8 +120,8 @@ fprintf('Program paused. Press enter to continue.\n');
 pause;
 
 
-%% ================ Part 6: Initializing Pameters ================
-%  In this part of the exercise, you will be starting to implment a two
+%% ================ Part 6: Initializing Parameters ================
+%  In this part of the exercise, you will be starting to implement a two
 %  layer neural network that classifies digits. You will start by
 %  implementing a function to initialize the weights of the neural network
 %  (randInitializeWeights.m)
@@ -138,7 +138,7 @@ initial_nn_params = [initial_Theta1(:) ; initial_Theta2(:)];
 %% =============== Part 7: Implement Backpropagation ===============
 %  Once your cost matches up with ours, you should proceed to implement the
 %  backpropagation algorithm for the neural network. You should add to the
-%  code you've written in nnCostFunction.m to return the partial
+%  code you have written in nnCostFunction.m to return the partial
 %  derivatives of the parameters.
 %
 fprintf('\nChecking Backpropagation... \n');
@@ -182,11 +182,11 @@ pause;
 fprintf('\nTraining Neural Network... \n')
 
 %  After you have completed the assignment, change the MaxIter to a larger
-%  value to see how more training helps.
-options = optimset('MaxIter', 50);
+%  value to see how more training helps. (Original MaxIter == 50.)
+options = optimset('MaxIter', 100);
 
-%  You should also try different values of lambda
-lambda = 1;
+%  You should also try different values of lambda. (Original lambda == 1.)
+lambda = .2;
 
 % Create "short hand" for the cost function to be minimized
 costFunction = @(p) nnCostFunction(p, ...
