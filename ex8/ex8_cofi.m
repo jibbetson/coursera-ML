@@ -128,22 +128,35 @@ my_ratings = zeros(1682, 1);
 
 % Check the file movie_idx.txt for id of each movie in our dataset
 % For example, Toy Story (1995) has ID 1, so to rate it "4", you can set
-my_ratings(1) = 4;
+my_ratings(1) = 4;      % Toy Story
 
 % Or suppose did not enjoy Silence of the Lambs (1991), you can set
-my_ratings(98) = 2;
+my_ratings(98) = 2;     % Silence of the Lambs
 
 % We have selected a few movies we liked / did not like and the ratings we
 % gave are as follows:
-my_ratings(7) = 3;
-my_ratings(12)= 5;
-my_ratings(54) = 4;
-my_ratings(64)= 5;
-my_ratings(66)= 3;
-my_ratings(69) = 5;
-my_ratings(183) = 4;
-my_ratings(226) = 5;
-my_ratings(355)= 5;
+my_ratings(7) = 4;      % Twelve Monkeys
+my_ratings(12) = 5;     % Usual Suspects
+my_ratings(54) = 4;     % Outbreak
+my_ratings(64) = 5;     % Shawshank Redemption
+my_ratings(66) = 3;     % While you were sleeping
+my_ratings(69) = 5;     % Forrest Gump
+my_ratings(183) = 4;    % Alien
+my_ratings(226) = 5;    % Die Hard 2
+my_ratings(355) = 5;    % Sphere
+
+% My real ratings
+my_ratings(1) = 5;      % Toy Story
+my_ratings(7) = 5;      % Twelve Monkeys
+my_ratings(12) = 3;     % Usual Suspects
+my_ratings(54) = 2;     % Outbreak
+my_ratings(64) = 3;     % Shawshank Redemption
+my_ratings(66) = 2;     % While you were sleeping
+my_ratings(69) = 5;     % Forrest Gump
+my_ratings(98) = 2;     % Silence of the Lambs
+my_ratings(183) = 5;    % Alien
+my_ratings(226) = 3;    % Die Hard 2
+my_ratings(355) = 2;    % Sphere
 
 fprintf('\n\nNew user ratings:\n');
 for i = 1:length(my_ratings)

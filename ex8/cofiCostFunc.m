@@ -10,7 +10,6 @@ function [J, grad] = cofiCostFunc(params, Y, R, num_users, num_movies, ...
 X = reshape(params(1:num_movies*num_features), num_movies, num_features);
 Theta = reshape(params(num_movies*num_features+1:end), ...
                 num_users, num_features);
-
             
 % You need to return the following values correctly
 J = 0;
@@ -34,26 +33,22 @@ Theta_grad = zeros(size(Theta));
 %
 % You should set the following variables correctly:
 %
+%        J - the "cost" or sum of square errors
 %        X_grad - num_movies x num_features matrix, containing the 
 %                 partial derivatives w.r.t. to each element of X
 %        Theta_grad - num_users x num_features matrix, containing the 
 %                     partial derivatives w.r.t. to each element of Theta
 %
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ % vectorized cost function, including only elements with a rating, ie R == 1
+ J = 0.5 * sum(sum(R .* (X * Theta' - Y) .^ 2));
+ J = J + 0.5 * lambda * ...
+     (sum(sum(Theta .^ 2)) + sum(sum(X .^ 2)));   % adding regularization
+% vectorized gradient for x, returns a size(X) matrix
+X_grad = (R .* (X * Theta' - Y)) * Theta;    
+X_grad = X_grad + lambda * X;                     % adding regularization
+% vectorized gradient for theta, returns a size(theta) matrix
+Theta_grad = (R .* (X * Theta' - Y))' * X;
+Theta_grad = Theta_grad + lambda * Theta;       % adding regularization
 
 % =============================================================
 
